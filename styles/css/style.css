@@ -1,0 +1,135 @@
+.hidden {
+  display: none;
+}
+
+.textarea,
+.keyboard {
+  width: 700px;
+  margin: auto;
+}
+
+.textarea {
+  display: block;
+  margin-bottom: 30px;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.keyboard__row {
+  display: flex;
+  gap: 7px;
+  justify-content: space-between;
+}
+
+.keyboard__key {
+  min-width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Keys content */
+.key-backspace:before {
+  content: "Backspace";
+}
+
+.key-tab:before {
+  content: "Tab";
+}
+
+.key-delete:before {
+  content: "Del";
+}
+
+.key-capslock:before {
+  content: "CapsLock";
+}
+
+.key-enter:before {
+  content: "Enter";
+}
+
+.key-shiftleft:before {
+  content: "Shift";
+}
+
+.key-shiftright:before {
+  content: "Shift";
+}
+
+.key-controlleft:before {
+  content: "Ctrl";
+}
+
+.key-controlright:before {
+  content: "Ctrl";
+}
+
+.key-altleft:before {
+  content: "Alt";
+}
+
+.key-altright:before {
+  content: "Alt";
+}
+
+.key-metaleft:before {
+  content: url("../../images/win.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-arrowright:before {
+  content: url("../../images/arrow-right.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-arrowleft:before {
+  content: url("../../images/arrow-left.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-arrowup:before {
+  content: url("../../images/arrow-up.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-arrowdown:before {
+  content: url("../../images/arrow-down.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-backspace {
+  flex-grow: 1;
+}
+
+.key-tab {
+  flex-grow: 1;
+}
+
+.key-capslock {
+  flex-grow: 1;
+}
+
+.key-enter {
+  flex-grow: 1;
+}
+
+.key-shiftleft {
+  flex-grow: 1;
+}
+
+.key-space {
+  flex-grow: 1;
+}
+
+/*# sourceMappingURL=style.css.map */

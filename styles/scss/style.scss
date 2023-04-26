@@ -1,0 +1,81 @@
+$row-gap: 10px;
+$keys-gap: 7px;
+$key-standart-size: 40px;
+
+.hidden {
+  display: none;
+}
+
+.textarea,
+.keyboard {
+  width: 700px;
+  margin: auto;
+}
+.textarea {
+  display: block;
+  margin-bottom: 30px;
+}
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: $row-gap;
+}
+.keyboard__row {
+  display: flex;
+  gap: $keys-gap;
+  justify-content: space-between;
+}
+.keyboard__key {
+  min-width: $key-standart-size;
+  height: $key-standart-size;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Keys content */
+$keys-content: (
+  backspace: 'Backspace',
+  tab: 'Tab',
+  delete: 'Del',
+  capslock: 'CapsLock',
+  enter: 'Enter',
+  shiftleft: 'Shift',
+  shiftright: 'Shift',
+  controlleft: 'Ctrl',
+  controlright: 'Ctrl',
+  altleft: 'Alt',
+  altright: 'Alt',
+  metaleft: url('../../images/win.svg'),
+  arrowright: url('../../images/arrow-right.svg'),
+  arrowleft: url('../../images/arrow-left.svg'),
+  arrowup: url('../../images/arrow-up.svg'),
+  arrowdown: url('../../images/arrow-down.svg'),
+);
+
+@each $key, $content in $keys-content {
+
+  .key-#{$key}:before {
+    content: $content;
+
+    @if $key == 'metaleft' or
+        $key == 'arrowright' or
+        $key == 'arrowleft' or
+        $key == 'arrowup' or
+        $key == 'arrowdown' {
+          display: inline-block;
+          width: 70%;
+        }
+
+  }
+
+}
+
+$keys-to-grow: ('backspace', 'tab', 'capslock', 'enter', 'shiftleft', 'space');
+@each $key in $keys-to-grow {
+
+  .key-#{$key} {
+    flex-grow: 1;
+  }
+
+}
