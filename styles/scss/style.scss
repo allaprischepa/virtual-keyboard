@@ -14,6 +14,7 @@ $key-standart-size: 40px;
 .textarea {
   display: block;
   margin-bottom: 30px;
+  outline: none;
 }
 .keyboard {
   display: flex;
@@ -31,6 +32,7 @@ $key-standart-size: 40px;
   padding: 0;
   margin: 0;
   cursor: pointer;
+  outline: none;
 }
 
 /* Keys content */
