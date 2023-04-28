@@ -2,12 +2,9 @@ $row-gap: 10px;
 $keys-gap: 7px;
 $key-standart-size: 40px;
 
-.hidden {
-  display: none;
-}
-
 .textarea,
 .keyboard {
+  font-size: 1rem;
   width: 700px;
   margin: auto;
 }
@@ -33,6 +30,20 @@ $key-standart-size: 40px;
   margin: 0;
   cursor: pointer;
   outline: none;
+  font-size: 0.9rem;
+}
+.key__inner_special {
+  display: block;
+  position: relative;
+  margin-top: 5px;
+
+  &::before {
+    content: attr(data-shiftKey);
+    position: absolute;
+    top: -10px;
+    left: 5px;
+    font-size: 0.8em;
+  }
 }
 
 /* Keys content */
@@ -80,4 +91,8 @@ $keys-to-grow: ('backspace', 'tab', 'capslock', 'enter', 'shiftleft', 'space');
     flex-grow: 1;
   }
 
+}
+
+.hidden {
+  display: none;
 }

@@ -2,7 +2,7 @@ import { keys, keyboardRows } from './keys.js';
 
 export default {
   body: document.querySelector('body'),
-  keyboardLang: window.keyboardLang || 'en',
+  keyboardLang: sessionStorage.getItem('keyboardLang') || 'en',
 
   /**
    * Add inputElement (textarea).
@@ -45,16 +45,23 @@ export default {
 
         if (keyObj) {
           const keyButton = document.createElement('button');
-          keyButton.classList = `keyboard__key key-${key.toLowerCase()} ${key}`;
+          keyButton.classList = `keyboard__key key key-${key.toLowerCase()} ${key}`;
 
           ['und', 'en', 'ru'].forEach((lang) => {
             if (keyObj[lang]) {
               const keyInner = document.createElement('span');
               const keyChar = keyObj[lang].char;
               keyInner.innerText = keyChar;
+              keyInner.classList = 'key__inner';
               keyInner.setAttribute('data-char', keyChar);
               keyInner.setAttribute('data-language', lang);
-              keyInner.setAttribute('data-shiftKey', keyObj[lang].shiftKey);
+
+              if (keyObj[lang].shiftKey !== 'upperCase') {
+                keyInner.setAttribute('data-shiftKey', keyObj[lang].shiftKey);
+                keyInner.classList.add('key__inner_special');
+              } else {
+                keyInner.classList.add('upperCase');
+              }
 
               if (lang !== 'und' && lang !== this.keyboardLang) {
                 keyInner.classList.add('hidden');

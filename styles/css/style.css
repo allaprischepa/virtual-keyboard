@@ -1,9 +1,6 @@
-.hidden {
-  display: none;
-}
-
 .textarea,
 .keyboard {
+  font-size: 1rem;
   width: 700px;
   margin: auto;
 }
@@ -33,6 +30,20 @@
   margin: 0;
   cursor: pointer;
   outline: none;
+  font-size: 0.9rem;
+}
+
+.key__inner_special {
+  display: block;
+  position: relative;
+  margin-top: 5px;
+}
+.key__inner_special::before {
+  content: attr(data-shiftKey);
+  position: absolute;
+  top: -10px;
+  left: 5px;
+  font-size: 0.8em;
 }
 
 /* Keys content */
@@ -132,6 +143,10 @@
 
 .key-space {
   flex-grow: 1;
+}
+
+.hidden {
+  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */
