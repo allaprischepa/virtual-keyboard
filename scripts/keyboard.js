@@ -89,6 +89,70 @@ function changeLanguage() {
 }
 
 /**
+ * Move caret according to arrows.
+ * @param {*} direction
+ */
+function moveCaret(direction) {
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const { value } = textarea;
+
+  switch (direction) {
+    case 'left':
+      if (start === end && start > 0) {
+        textarea.selectionEnd = end - 1;
+      } else if (start !== end) {
+        textarea.selectionEnd = start;
+      }
+      break;
+
+    case 'right':
+      if (start === end && end < value.length) {
+        textarea.selectionStart = start + 1;
+      } else if (start !== end) {
+        textarea.selectionStart = end;
+      }
+      break;
+
+    case 'up': {
+      const previousLineEnd = value.lastIndexOf('\n', start - 1);
+      let newPos = 0;
+
+      if (previousLineEnd !== -1) {
+        const currentLineStart = previousLineEnd + 1;
+        const currentLinePos = start - currentLineStart;
+        const beforePreviousLineEnd = value.lastIndexOf('\n', previousLineEnd - 1);
+        const previousLineStart = beforePreviousLineEnd + 1;
+        newPos = previousLineStart + currentLinePos;
+        newPos = newPos <= previousLineEnd ? newPos : previousLineEnd;
+      }
+
+      textarea.setSelectionRange(newPos, newPos);
+      break;
+    }
+
+    case 'down': {
+      const currentLineEnd = value.indexOf('\n', start);
+      let newPos = value.length;
+
+      if (currentLineEnd !== -1) {
+        const nextLineStart = currentLineEnd + 1;
+        const currentLineStart = value.lastIndexOf('\n', start - 1) + 1;
+        const currentLinePos = start - currentLineStart;
+        newPos = nextLineStart + currentLinePos;
+        newPos = newPos <= value.length ? newPos : value.length;
+      }
+
+      textarea.setSelectionRange(newPos, newPos);
+      break;
+    }
+
+    default:
+      break;
+  }
+}
+
+/**
  * Focus on textarea.
  */
 keyboard.addEventListener('click', () => {
@@ -114,6 +178,14 @@ keyboardButtons.forEach((button) => {
       removeTextBeforeCaret();
     } else if (this.classList.contains('Delete')) {
       removeTextAfterCaret();
+    } else if (this.classList.contains('ArrowLeft')) {
+      moveCaret('left');
+    } else if (this.classList.contains('ArrowRight')) {
+      moveCaret('right');
+    } else if (this.classList.contains('ArrowUp')) {
+      moveCaret('up');
+    } else if (this.classList.contains('ArrowDown')) {
+      moveCaret('down');
     }
   });
 });
