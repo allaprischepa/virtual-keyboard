@@ -4,11 +4,24 @@ import keyBoardFunc from './modules/func.js';
 if (sessionStorage.getItem('keyboardLang') === undefined) {
   sessionStorage.setItem('keyboardLang', 'en');
 }
+
+keyBoardFunc.addDescription();
 const textarea = keyBoardFunc.addInputElement();
 const keyboard = keyBoardFunc.addKeyboardElement();
 const keyboardButtons = keyboard.querySelectorAll('.keyboard__key');
 let altPressed;
 let ctrlPressed;
+let shiftPressed;
+let capsLockIsOn = false;
+let shiftIsClicked = false;
+
+/**
+ * Scroll textarea.
+ */
+function scrollTextareaToCursor() {
+  textarea.blur();
+  textarea.focus();
+}
 
 /**
  * Add text to textarea.
@@ -81,7 +94,10 @@ function changeLanguage() {
   keyboardButtons.forEach((button) => {
     if (button.querySelector('.key__inner.hidden')) {
       button.querySelector('.key__inner.hidden').classList.toggle('hidden');
-      button.querySelector(`.key__inner[data-language="${currentLanguage}"]`).classList.toggle('hidden');
+
+      if (button.querySelector(`.key__inner[data-language="${currentLanguage}"]`)) {
+        button.querySelector(`.key__inner[data-language="${currentLanguage}"]`).classList.toggle('hidden');
+      }
     }
   });
 
@@ -153,6 +169,16 @@ function moveCaret(direction) {
 }
 
 /**
+ * Turn on / off button highlight.
+ * @param {*} button
+ * @param {*} on
+ */
+function highlightButton(button, on = true) {
+  if (on) button.classList.add('keyboard__key_active');
+  else button.classList.remove('keyboard__key_active');
+}
+
+/**
  * Focus on textarea.
  */
 keyboard.addEventListener('click', () => {
@@ -163,11 +189,24 @@ keyboard.addEventListener('click', () => {
  * Implement virtual keyboard.
  */
 keyboardButtons.forEach((button) => {
+  const currentIsCapsLock = button.classList.contains('CapsLock');
+  const currentIsShift = button.classList.contains('ShiftLeft') || button.classList.contains('ShiftRight');
+
   button.addEventListener('click', function buttonClick() {
     const keyInner = this.querySelector('.key__inner:not(.hidden)');
+    const shiftIsOn = shiftIsClicked || shiftPressed;
+    const toUpperCase = (capsLockIsOn && !shiftIsOn) || (!capsLockIsOn && shiftIsOn);
 
     if (keyInner) {
-      addText(keyInner.getAttribute('data-char'));
+      let text = `${keyInner.getAttribute('data-char')}`;
+
+      if (toUpperCase && keyInner.classList.contains('upperCase')) {
+        text = text.toUpperCase();
+      } else if (shiftIsOn && keyInner.getAttribute('data-shiftkey')) {
+        text = keyInner.getAttribute('data-shiftkey');
+      }
+
+      addText(text);
     } else if (this.classList.contains('Space')) {
       addText(' ');
     } else if (this.classList.contains('Enter')) {
@@ -187,20 +226,74 @@ keyboardButtons.forEach((button) => {
     } else if (this.classList.contains('ArrowDown')) {
       moveCaret('down');
     }
+
+    scrollTextareaToCursor();
+  });
+
+  button.addEventListener('mousedown', () => {
+    capsLockIsOn = currentIsCapsLock ? !capsLockIsOn : capsLockIsOn;
+    shiftIsClicked = currentIsShift;
+    highlightButton(button);
+  });
+
+  ['mouseup'].forEach((e) => {
+    button.addEventListener(e, () => {
+      shiftIsClicked = false;
+      if (!currentIsCapsLock) highlightButton(button, false);
+      else if (capsLockIsOn) highlightButton(button);
+      else highlightButton(button, false);
+    });
   });
 });
 
 /**
- * Listen click event on physical keyboard.
+ * Listen keydown event on physical keyboard.
  */
-window.addEventListener('keyup', (event) => {
-  //capsLockPressed = event.getModifierState('CapsLock');
-  //shiftPressed = event.shiftKey;
+window.addEventListener('keydown', (event) => {
+  capsLockIsOn = (event.code === 'CapsLock') ? !capsLockIsOn : capsLockIsOn;
+  shiftPressed = event.key === 'Shift' || event.shiftKey;
   altPressed = event.altKey;
   ctrlPressed = event.ctrlKey;
+  const modifier = altPressed || ctrlPressed;
+  const button = event.code ? document.querySelector(`.keyboard__key.${event.code}`) : null;
+
+  if (button) {
+    if (event.code !== 'CapsLock') highlightButton(button);
+
+    if (!modifier && !['Alt', 'Control', 'Shift', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+      button.click();
+      event.preventDefault();
+    }
+  }
+});
+
+/**
+ * Listen keyup event on physical keyboard.
+ */
+window.addEventListener('keyup', (event) => {
+  const button = event.code ? document.querySelector(`.keyboard__key.${event.code}`) : null;
+  const currentIsCapsLock = event.code === 'CapsLock';
+  shiftPressed = event.key === 'Shift' ? false : event.shiftKey;
+  altPressed = event.altKey;
+  ctrlPressed = event.ctrlKey;
+
+  if (button) {
+    if (!currentIsCapsLock) highlightButton(button, false);
+    else if (capsLockIsOn) highlightButton(button);
+    else highlightButton(button, false);
+  }
 
   if ((ctrlPressed && event.key === 'Alt')
   || (altPressed && event.key === 'Control')) {
     changeLanguage();
   }
+});
+
+/**
+ * Listen blur event on window.
+ */
+window.addEventListener('blur', () => {
+  keyboardButtons.forEach((button) => {
+    highlightButton(button, false);
+  });
 });

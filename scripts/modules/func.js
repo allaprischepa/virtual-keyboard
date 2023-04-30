@@ -1,8 +1,14 @@
 import { keys, keyboardRows } from './keys.js';
 
 export default {
-  body: document.querySelector('body'),
   keyboardLang: sessionStorage.getItem('keyboardLang') || 'en',
+  container: (() => {
+    const container = document.createElement('div');
+    container.classList.add('container');
+    document.querySelector('body').append(container);
+
+    return container;
+  })(),
 
   /**
    * Add inputElement (textarea).
@@ -11,8 +17,8 @@ export default {
   addInputElement() {
     const inputElement = document.createElement('textarea');
     inputElement.classList = 'textarea';
-    inputElement.setAttribute('rows', 5);
-    this.body.append(inputElement);
+    inputElement.setAttribute('rows', 7);
+    this.container.append(inputElement);
 
     return inputElement;
   },
@@ -24,7 +30,7 @@ export default {
   addKeyboardElement() {
     const keyboardElement = document.createElement('div');
     keyboardElement.classList = 'keyboard';
-    this.body.append(keyboardElement);
+    this.container.append(keyboardElement);
 
     this.addKeys(keyboardElement);
 
@@ -77,5 +83,25 @@ export default {
 
       keyboardElement.append(rowElement);
     });
+  },
+
+  /**
+   * Add description block.
+   */
+  addDescription() {
+    const description = document.createElement('div');
+    const descriptionHeader = document.createElement('h1');
+    const descriptionText = document.createElement('div');
+
+    description.classList.add('description');
+    descriptionHeader.classList.add('description__header');
+    descriptionHeader.innerHTML = 'Virtual Keyboard';
+    descriptionText.classList.add('description__text');
+    descriptionText.innerHTML = '<p>Press <span class="shortcut">Ctrl + Alt</span> to switch language.</p>';
+    descriptionText.innerHTML += '<p>This keyboard is created via Fedora OS.</p>';
+
+    description.append(descriptionHeader);
+    description.append(descriptionText);
+    this.container.append(description);
   },
 };
