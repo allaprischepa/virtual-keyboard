@@ -1,7 +1,7 @@
 import keyBoardFunc from './modules/func.js';
 
 // Set language first time.
-if (sessionStorage.getItem('keyboardLang') === undefined) {
+if (!sessionStorage.getItem('keyboardLang')) {
   sessionStorage.setItem('keyboardLang', 'en');
 }
 
