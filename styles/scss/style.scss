@@ -2,6 +2,7 @@ $row-gap: 10px;
 $keys-gap: 7px;
 $key-standart-size: 40px;
 $button-color: 	#f0f0f0;
+$transition-duration: 300ms;
 
 .container {
   font-size: 1rem;
@@ -44,19 +45,15 @@ $button-color: 	#f0f0f0;
   cursor: pointer;
   outline: none;
   font-size: 0.9rem;
-}
-
-.keyboard__key {
   background: lighten($button-color, 3%);
   border: 1px solid darken($button-color, 15%);
   border-radius: 5px;
   letter-spacing: 1px;
-  transition: all 150ms linear;
+  transition: all $transition-duration linear;
 
   &:not(&_active):hover {
     background: darken($button-color, 10%);
     border: 1px solid rgba(#000, .05);
-    transition: all 250ms linear;
   }
 }
 
@@ -66,7 +63,7 @@ $button-color: 	#f0f0f0;
   border: 1px solid rgba(#000, .05);
   box-shadow: inset 1px 1px 1px darken($button-color, 40%);
   color: lighten($button-color, 18%);
-  transition: all 250ms linear;
+  transition: all $transition-duration linear;
 }
 
 .key__inner_special {
