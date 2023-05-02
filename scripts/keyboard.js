@@ -212,7 +212,7 @@ keyboardButtons.forEach((button) => {
     } else if (this.classList.contains('Enter')) {
       addText('\n');
     } else if (this.classList.contains('Tab')) {
-      addText('    ');
+      addText('\t');
     } else if (this.classList.contains('Backspace')) {
       removeTextBeforeCaret();
     } else if (this.classList.contains('Delete')) {
