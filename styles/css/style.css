@@ -1,0 +1,178 @@
+.container {
+  font-size: 1rem;
+  width: 720px;
+  margin: auto;
+}
+
+.textarea {
+  display: block;
+  margin-bottom: 30px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.shortcut {
+  font-weight: 600;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background-color: #efefef;
+}
+
+.keyboard__row {
+  display: flex;
+  gap: 7px;
+  justify-content: space-between;
+}
+
+.keyboard__key {
+  min-width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+  font-size: 0.9rem;
+  background: #f8f8f8;
+  border: 1px solid #cacaca;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  transition: all 300ms linear;
+}
+.keyboard__key:not(.keyboard__key_active):hover {
+  background: #d7d7d7;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.keyboard__key_active,
+.keyboard__key:active {
+  background: #a4a4a4;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: inset 1px 1px 1px #8a8a8a;
+  color: white;
+  transition: all 300ms linear;
+}
+
+.key__inner_special {
+  display: block;
+  position: relative;
+  margin-top: 5px;
+}
+.key__inner_special::before {
+  content: attr(data-shiftKey);
+  position: absolute;
+  top: -10px;
+  left: 5px;
+  font-size: 0.8em;
+}
+
+/* Keys content */
+.key-backspace:before {
+  content: "Backspace";
+}
+
+.key-tab:before {
+  content: "Tab";
+}
+
+.key-delete:before {
+  content: "Del";
+}
+
+.key-capslock:before {
+  content: "CapsLock";
+}
+
+.key-enter:before {
+  content: "Enter";
+}
+
+.key-shiftleft:before {
+  content: "Shift";
+}
+
+.key-shiftright:before {
+  content: "Shift";
+}
+
+.key-controlleft:before {
+  content: "Ctrl";
+}
+
+.key-controlright:before {
+  content: "Ctrl";
+}
+
+.key-altleft:before {
+  content: "Alt";
+}
+
+.key-altright:before {
+  content: "Alt";
+}
+
+.key-metaleft:before {
+  content: url("../../images/win.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-arrowright:before {
+  content: url("../../images/arrow-right.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-arrowleft:before {
+  content: url("../../images/arrow-left.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-arrowup:before {
+  content: url("../../images/arrow-up.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-arrowdown:before {
+  content: url("../../images/arrow-down.svg");
+  display: inline-block;
+  width: 70%;
+}
+
+.key-backspace {
+  flex-grow: 1;
+}
+
+.key-tab {
+  flex-grow: 1;
+}
+
+.key-capslock {
+  flex-grow: 1;
+}
+
+.key-enter {
+  flex-grow: 1;
+}
+
+.key-shiftleft {
+  flex-grow: 1;
+}
+
+.key-space {
+  flex-grow: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+/*# sourceMappingURL=style.css.map */
