@@ -1,0 +1,132 @@
+$row-gap: 10px;
+$keys-gap: 7px;
+$key-standart-size: 40px;
+$button-color: 	#f0f0f0;
+$transition-duration: 300ms;
+
+.container {
+  font-size: 1rem;
+  width: 720px;
+  margin: auto;
+}
+
+.textarea {
+  display: block;
+  margin-bottom: 30px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.shortcut {
+  font-weight: 600;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: $row-gap;
+  padding: 10px;
+  background-color: darken($button-color, 0.5%);
+}
+
+.keyboard__row {
+  display: flex;
+  gap: $keys-gap;
+  justify-content: space-between;
+}
+
+.keyboard__key {
+  min-width: $key-standart-size;
+  height: $key-standart-size;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+  font-size: 0.9rem;
+  background: lighten($button-color, 3%);
+  border: 1px solid darken($button-color, 15%);
+  border-radius: 5px;
+  letter-spacing: 1px;
+  transition: all $transition-duration linear;
+
+  &:not(&_active):hover {
+    background: darken($button-color, 10%);
+    border: 1px solid rgba(#000, .05);
+  }
+}
+
+.keyboard__key_active,
+.keyboard__key:active {
+  background: darken($button-color, 30%);
+  border: 1px solid rgba(#000, .05);
+  box-shadow: inset 1px 1px 1px darken($button-color, 40%);
+  color: lighten($button-color, 18%);
+  transition: all $transition-duration linear;
+}
+
+.key__inner_special {
+  display: block;
+  position: relative;
+  margin-top: 5px;
+
+  &::before {
+    content: attr(data-shiftKey);
+    position: absolute;
+    top: -10px;
+    left: 5px;
+    font-size: 0.8em;
+  }
+}
+
+/* Keys content */
+$keys-content: (
+  backspace: 'Backspace',
+  tab: 'Tab',
+  delete: 'Del',
+  capslock: 'CapsLock',
+  enter: 'Enter',
+  shiftleft: 'Shift',
+  shiftright: 'Shift',
+  controlleft: 'Ctrl',
+  controlright: 'Ctrl',
+  altleft: 'Alt',
+  altright: 'Alt',
+  metaleft: url('../../images/win.svg'),
+  arrowright: url('../../images/arrow-right.svg'),
+  arrowleft: url('../../images/arrow-left.svg'),
+  arrowup: url('../../images/arrow-up.svg'),
+  arrowdown: url('../../images/arrow-down.svg'),
+);
+
+@each $key, $content in $keys-content {
+
+  .key-#{$key}:before {
+    content: $content;
+
+    @if $key == 'metaleft' or
+        $key == 'arrowright' or
+        $key == 'arrowleft' or
+        $key == 'arrowup' or
+        $key == 'arrowdown' {
+          display: inline-block;
+          width: 70%;
+        }
+
+  }
+
+}
+
+$keys-to-grow: ('backspace', 'tab', 'capslock', 'enter', 'shiftleft', 'space');
+@each $key in $keys-to-grow {
+
+  .key-#{$key} {
+    flex-grow: 1;
+  }
+
+}
+
+.hidden {
+  display: none;
+}
